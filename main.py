@@ -13,28 +13,25 @@ def find_mismatch(text):
     opening_brackets_stack = []
     for i, next in enumerate(text): # enumarete funkcija dod atpakaļ pašreizējo iterāciju skaitu un vērtību
         if next in "([{": 
-            opening_brackets_stack.append(Bracket(next, i )) # append funkcija pievieno elementu saraksta beigās
+            opening_brackets_stack.append(Bracket(next, i + 1 )) # append funkcija pievieno elementu saraksta beigās
             # Process opening bracket, write your code here
-           
-
         if next in ")]}":
-            if not opening_brackets_stack: return i+1 
-            m = opening_brackets_stack.pop() 
-            if not are_matching: 
-                return i+1 # pop funkcijas izņemt specifiskā pozīcījā esošu elementu
-           
-
-            if opening_brackets_stack:
-                m = opening_brackets_stack.pop() 
-                return m.position + 1 
-            return ("Success")
+            if not opening_brackets_stack:
+                return i + 1
+            if not are_matching(opening_brackets_stack[-1].char,next):
+             return i + 1
+            opening_brackets_stack.pop()
+    if opening_brackets_stack:
+        return
+        opening_brackets_stack[-1].position
+    else : return "Success"
             # Process closing bracket, write your code here
 
 
 def main():
-    print("1. Nolasa no faila, 2. Ievada pats: Izvēlies 1 vai 2")
+    print("F vai I?")
     atbilde = input()
-    if "1" in atbilde:
+    if "F" in atbilde:
      failanos = input ("Faila nosaukums: ")
      with open(failanos, "r") as file:
         iekavas = file.read()
@@ -43,7 +40,7 @@ def main():
             print("Success")
         else:
             print(mekle)
-    elif "2" in atbilde:
+    elif "I" in atbilde:
         iekavas = input()
         mekle = find_mismatch(iekavas)
         if mekle == "Success":
